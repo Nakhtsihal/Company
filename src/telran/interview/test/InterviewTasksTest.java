@@ -5,12 +5,33 @@ import static telran.interview.InterviewTasks.*;
 
 import java.util.HashMap;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class InterviewTasksTest {
+	public static final int N_NUMBERS  = 100000;
+	int [] bigArray = new int [N_NUMBERS];
+	@Test
+	@DisplayName("performance 0[N] is Sum2")
+	void isSum2PerformanceTest(){
+		isSum2(bigArray, 1);
+	}
+	@Test
+	@DisplayName("performance 0[N^2] is Sum2N2")
+	void isSum2N2PerformanceTest(){
+		isSum2N2(bigArray, 1);
+	}
 
 	@Test
 	void isSum2Test() {
+		int [] ar1 = {1000, 300, -200, 20, 40, -10};
+		assertTrue(isSum2(ar1, 800));
+		assertTrue(isSum2(ar1, 990));
+		assertFalse(isSum2(ar1, 50));
+	}
+
+	@Test
+	void isSum2N2Test() {
 		int [] ar1 = {1000, 300, -200, 20, 40, -10};
 		assertTrue(isSum2(ar1, 800));
 		assertTrue(isSum2(ar1, 990));
