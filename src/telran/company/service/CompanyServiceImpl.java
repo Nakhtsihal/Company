@@ -9,57 +9,117 @@ import telran.company.dto.SalaryIntervalDistribution;
 
 public class CompanyServiceImpl implements CompanyService {
 	HashMap<Long, Employee> employeesMap = new HashMap<>();
-	/***********************************************************/
+
 	HashMap<String, Set<Employee>> employeesDepartment = new HashMap<>();
-	//key - department, value- Set of employees working in the department
-	/*************************************************************/
+	//key - department, value - Set of employees working in the department
+
 	TreeMap<Integer, Set<Employee>> employeesSalary = new TreeMap<>();
 	//key - salary, value - set of employees having the salary value
-	/****************************************************************/
+
 	TreeMap<LocalDate, Set<Employee>> employeesAge = new TreeMap<>();
 	//key birth date; value set of employees born at the date
-	/*******************************************************************/
+
 	@Override
-	/**
+	/*
 	 * adds new Employee into a company
 	 * In the case an employee with the given ID already exists,
 	 *  the exception IllegalStateException must be thrown
 	 *  returns reference to the being added Employee object
 	 */
 	public Employee hireEmployee(Employee empl) {
-		//TODO O[1]
-		return null;
+		long id = empl.id();
+		if(employeesMap.containsKey(id)){
+			throw new IllegalStateException("Employee already exists" + id);
+		}
+		employeesMap.put(id,empl);
+		addEmployeeSalary(empl);
+		addEmployeeAge(empl);
+		addEmployeeDepartment(empl);
+		return empl;
+	}
+
+	private void addEmployeeDepartment(Employee empl) {
+		String department = empl.department();
+		Set<Employee> set = employeesDepartment.computeIfAbsent(department,k -> new HashSet<>());
+		set.add(empl);
+
+	}
+
+	private void addEmployeeAge(Employee empl) {
+		LocalDate birthDate = empl.birthDate();
+		Set<Employee> set = employeesAge.computeIfAbsent(birthDate, k -> new HashSet<>());
+		set.add(empl);
+
+	}
+
+	private void addEmployeeSalary(Employee empl) {
+		int salary = empl.salary();
+		Set<Employee> set = employeesSalary.computeIfAbsent(salary,k -> new HashSet<>());
+		set.add(empl);
+
 	}
 
 	@Override
-	/**
+	/*
 	 * removes employee object from company according to a given ID
 	 * In the case an employee with the given ID doesn't exist 
 	 * the method must throw IllegalStateException
 	 */
 	public Employee fireEmployee(long id) {
-		// TODO Auto-generated method stub O[1]
-		return null;
+		Employee empl = employeesMap.remove(id);
+		if(empl == null)
+		{
+			throw new IllegalStateException("Employee not found" + id);
+		}
+		removeEmployeesDepartment(empl);
+		removeEmployeesSalary(empl);
+		removeEmployeesAge(empl);
+		return empl;
+	}
+
+	private void removeEmployeesAge(Employee empl) {
+		LocalDate birthDate = empl.birthDate();
+		Set<Employee> set = employeesAge.get(birthDate);
+		set.remove(empl); // removing reference to being removed employee from the set of employees with the given birth date
+		if(set.isEmpty()){
+			employeesAge.remove(birthDate);
+		}
+	}
+
+	private void removeEmployeesSalary(Employee empl) {
+		int salary = empl.salary();
+		Set<Employee> set = employeesSalary.get(salary);
+		set.remove(empl);
+		if(set.isEmpty()){
+			employeesSalary.remove(salary);
+		}
+	}
+
+	private void removeEmployeesDepartment(Employee empl) {
+		String department = empl.department();
+		Set<Employee> set = employeesDepartment.get(department);
+		set.remove(empl);
+		if(set.isEmpty()){
+			employeesDepartment.remove(department);
+		}
 	}
 
 	@Override
-	/**
+	/*
 	 * returns reference to Employee object with a given ID value
 	 * in the case employee with the ID doesn't exist
 	 * the method returns null
 	 */
 	public Employee getEmployee(long id) {
-		// TODO Auto-generated method stub O[1]
-		return null;
+		return employeesMap.get(id);
 	}
 
 	@Override
-	/**
+	/*
 	 * returns list of employee objects working in a given department
 	 * in the case none employees in the department, the method returns empty list
 	 */
 	public List<Employee> getEmployeesByDepartment(String department) {
-		// TODO Auto-generated method stub O[1]
 		return null;
 	}
 
