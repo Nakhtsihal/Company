@@ -3,6 +3,7 @@ package telran.interview.test;
 import static org.junit.jupiter.api.Assertions.*;
 import static telran.interview.InterviewTasks.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
@@ -55,5 +56,36 @@ class InterviewTasksTest {
 		assertEquals(1, mapOccurrences.get("ab"));
 		assertEquals(1, mapOccurrences.get("aa"));
 	}
+	@Test
+	void isAnagramTest() {
+		String string = "yellow";
+		assertTrue(isAnagram(string, "wolely"));
+		assertTrue(isAnagram(string, "elolwy"));
+		assertTrue(isAnagram(string, "lowely"));
+		assertTrue(isAnagram(string, "ollwey"));
+		assertFalse(isAnagram(string, "wolelw")); //not y
+		assertFalse(isAnagram(string, string));//the same order
+		assertFalse(isAnagram(string, "wglely"));//g is not from the string
+		assertFalse(isAnagram(string, "wolye"));//must be two 'l'
 
+	}
+
+	private boolean isAnagram(String string, String anagram) {
+		if (string.length() != anagram.length()) {
+			return false;
+		}
+
+		if (string == anagram){
+			return false;
+		}
+
+		char[] chars1 = string.toCharArray();
+		char[] chars2 = anagram.toCharArray();
+
+		Arrays.sort(chars1);
+		Arrays.sort(chars2);
+
+		return Arrays.equals(chars1, chars2);
+
+	}
 }
