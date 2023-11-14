@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 import java.io.CharArrayReader;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class InterviewTasks {
 
@@ -129,5 +134,26 @@ HashMap<String, Long> res = new HashMap<>();
 			}
 		}
 		return map;
+	}
+
+	public static void displayDigitsDistribution() {
+		Random gen = new Random();
+		IntStream nNumbers = gen.ints(10, 1, Integer.MAX_VALUE);
+		Stream<String> stream = nNumbers.mapToObj(String::valueOf);
+		Stream<Character> charStream = stream.flatMap(s -> s.chars().mapToObj(c -> (char) c));
+		Map<Character, Long> countChars = charStream.collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+		countChars.entrySet().stream().sorted((c1, c2) -> {
+			if (c1.getKey() == '1') {
+				return -1; // '1' comes first
+			} else if (c2.getKey() == '1') {
+				return 1;
+			} else if (c1.getKey() == '2') {
+				return -1; // '2' comes second
+			} else if (c2.getKey() == '2') {
+				return 1;
+			} else {
+				return c2.getValue().compareTo(c1.getValue()); // Sort by occurrences in descending order
+			}
+		}).forEach(c -> System.out.printf("%s => %d\n", c.getKey(), c.getValue()));
 	}
 }

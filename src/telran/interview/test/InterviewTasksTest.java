@@ -5,6 +5,11 @@ import static telran.interview.InterviewTasks.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -104,17 +109,6 @@ class InterviewTasksTest {
 	}
 
 	// Task for streams / grouping
-	@Test
-	public static void displayDigitsDistribution(){
-		int nNumbers = 1_000_000;
-		//TODO
-		// create stream of random int's (nNumbers), each int number in range [1, Integer.MAX_VALUE)
-		// conversion to stream of Strings
-		// extracting separate char's from strings
-		// grouping with counting
-		// sorting in descending order of occurrences
-		// printing
-	}
 	@Test
 	void displayDigitsDistributionTest(){
 		displayDigitsDistribution();
