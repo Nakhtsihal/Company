@@ -6,6 +6,7 @@ import static telran.interview.InterviewTasks.*;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -70,6 +71,9 @@ class InterviewTasksTest {
 
 	}
 
+	@Test
+	@Disabled
+
 	private boolean isAnagram(String string, String anagram) {
 		if (string.length() != anagram.length()) {
 			return false;
@@ -88,4 +92,47 @@ class InterviewTasksTest {
 		return Arrays.equals(chars1, chars2);
 
 	}
+
+	@Test
+	@Disabled
+	private static HashMap<Character, Integer> getStringMap(String string){
+		HashMap<Character, Integer> res = new HashMap<>();
+		for(char symbol: string.toCharArray()){
+			res.merge(symbol,1,Integer::sum);
+		}
+		return res;
+	}
+
+	// Task for streams / grouping
+	@Test
+	public static void displayDigitsDistribution(){
+		int nNumbers = 1_000_000;
+		//TODO
+		// create stream of random int's (nNumbers), each int number in range [1, Integer.MAX_VALUE)
+		// conversion to stream of Strings
+		// extracting separate char's from strings
+		// grouping with counting
+		// sorting in descending order of occurrences
+		// printing
+	}
+	@Test
+	void displayDigitsDistributionTest(){
+		displayDigitsDistribution();
+		//required output:
+		/* always 1 will be first
+		          2 will be second
+		1 - <counter of occurrences>
+		2 - <counter of occurrences>
+		random order of digits
+		0 - <counter of occurrences>
+		4 - <counter of occurrences>
+		3 - <counter of occurrences>
+		5 - <counter of occurrences>
+		7 - <counter of occurrences>
+		6 - <counter of occurrences>
+		9 - <counter of occurrences>
+		8 - <counter of occurrences>
+		 */
+	}
+
 }
