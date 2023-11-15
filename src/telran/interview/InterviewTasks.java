@@ -1,8 +1,5 @@
 package telran.interview;
 
-import org.junit.jupiter.api.Test;
-
-import java.io.CharArrayReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -155,5 +152,11 @@ HashMap<String, Long> res = new HashMap<>();
 				return c2.getValue().compareTo(c1.getValue()); // Sort by occurrences in descending order
 			}
 		}).forEach(c -> System.out.printf("%s => %d\n", c.getKey(), c.getValue()));
+	}
+	/*
+	prints a given array in shuffled order
+	 */
+	public static void displayArrayShuffling(int[] array ){
+		//TODO
 	}
 }

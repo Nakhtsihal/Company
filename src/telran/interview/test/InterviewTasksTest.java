@@ -5,11 +5,6 @@ import static telran.interview.InterviewTasks.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -110,6 +105,7 @@ class InterviewTasksTest {
 
 	// Task for streams / grouping
 	@Test
+	@Disabled
 	void displayDigitsDistributionTest(){
 		displayDigitsDistribution();
 		//required output:
@@ -128,5 +124,15 @@ class InterviewTasksTest {
 		8 - <counter of occurrences>
 		 */
 	}
+	@Test
+	void displayArrayShufflingTest(){
+		int[] array = {1,2,3,4,5,6};
+		for(int i = 0; i < 3; i++){
+			displayArrayShuffling(array);
+		}
+		//output like
+		/*
 
+		 */
+	}
 }
