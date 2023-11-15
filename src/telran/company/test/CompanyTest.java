@@ -4,20 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import org.junit.jupiter.api.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
-import telran.company.dto.DepartmentAvgSalary;
-import telran.company.dto.Employee;
-import telran.company.dto.SalaryIntervalDistribution;
-import telran.company.service.CompanyService;
-import telran.company.service.CompanyServiceImpl;
+import telran.company.dto.*;
+import telran.company.service.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) //for definition of tests ordering
 class CompanyTest {
 private static final long ID1 = 123;
@@ -145,14 +136,14 @@ CompanyService company = null;
 
 	@Test
 	void testGetSalaryDistribution() {
-		int interval = 2000;
+		int interval = 1500;
 		List<SalaryIntervalDistribution> distribution = company.getSalaryDistribution(interval);
-		SalaryIntervalDistribution[] expectedDistrubution = {
-			new SalaryIntervalDistribution(SALARY1, SALARY1 + interval, 2)	,
-			new SalaryIntervalDistribution(SALARY3, SALARY3 + interval, 2),
-			new SalaryIntervalDistribution(SALARY5, SALARY5 + interval, 1)
-		};
-		assertArrayEquals(expectedDistrubution, distribution.toArray(new SalaryIntervalDistribution[0]));
+		SalaryIntervalDistribution[] expectedDistribution = {
+			new SalaryIntervalDistribution(4500, 6000, 2),
+			new SalaryIntervalDistribution(6000, 7500, 2),
+			new SalaryIntervalDistribution(7500, 9000, 1),
+			new SalaryIntervalDistribution(9000, 10500,1)};
+		assertArrayEquals(expectedDistribution, distribution.toArray(new SalaryIntervalDistribution[0]));
 		
 	}
 
@@ -172,13 +163,11 @@ CompanyService company = null;
 	}
 
 	@Test
-	@Order(1)
 	void testSave() {
 		company.save(FILE_PATH); //saving company data in the file
 	}
 
 	@Test
-	@Order(2)
 	void testRestore() {
 		CompanyService companySaved = new CompanyServiceImpl();
 		companySaved.restore(FILE_PATH);
