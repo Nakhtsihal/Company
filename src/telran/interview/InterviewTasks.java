@@ -1,9 +1,6 @@
 package telran.interview;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -21,7 +18,8 @@ public class InterviewTasks {
 		int[] ar1 = {1000, 300, -200, 20, 40, -10};
 
 		isSum2(ar1, 800);
-
+		int[] array = {1,2,3,4,5,6};
+		displayArrayShuffling(array);
 	}
 
 	public static boolean isSum2(int[] ar, int sum) {
@@ -157,6 +155,19 @@ HashMap<String, Long> res = new HashMap<>();
 	prints a given array in shuffled order
 	 */
 	public static void displayArrayShuffling(int[] array ){
-		//TODO
+		/*List<Integer> list = new ArrayList<>();
+		for (int value : array) {
+			list.add(value);
+		}
+
+		Collections.shuffle(list);
+
+		list.forEach(element -> System.out.print(element + " "));
+*/
+		new Random().ints(0,array.length)
+				.distinct().limit(array.length)
+				.forEach(i -> System.out.print(array[i] + " "));
+
 	}
+
 }

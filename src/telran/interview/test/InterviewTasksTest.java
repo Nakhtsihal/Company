@@ -130,9 +130,5 @@ class InterviewTasksTest {
 		for(int i = 0; i < 3; i++){
 			displayArrayShuffling(array);
 		}
-		//output like
-		/*
-
-		 */
 	}
 }

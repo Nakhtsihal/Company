@@ -1,33 +1,51 @@
 package telran.interview;
-// All the method implementations should be in the complexity O[1]
+
+import java.util.LinkedList;
+
+/**
+ * All the method implementations should be in the complexity O[1]
+ */
 public class MyStack {
-    //TODO data structure fields
-    /*
-    adds a given number at top of the stack
+    private LinkedList<Integer> numbers = new LinkedList<>();
+    private LinkedList<Integer> maxNumbers = new LinkedList<>();
+    /**
+     * adds a given number at top of the stack
+     * @param number
      */
-    void push(int number){
-        //TODO
+    public void push(int number) {
+        numbers.add(number);
+        if (maxNumbers.isEmpty() || number >= maxNumbers.getLast()) {
+            maxNumbers.add(number);
+        }
     }
-    /*
-    return number and remove the number from the stack top
-    In the case the stack is empty the Exception(NoSuchElementException) must be thrown
+    /**
+     *
+     * @return number and remove the number form the stack top
+     * In the case the stack is empty the Exception (NoSuchElementException)
+     * must be thrown
      */
-    int pull(){
-        //TODO
-        return -1;
+    public int pull() {
+        int res = numbers.removeLast();
+        if (res == maxNumbers.getLast()) {
+            maxNumbers.removeLast();
+        }
+        return res;
     }
-    /*
-    return if the stack is empty otherwise false
+    /**
+     *
+     * @return true if the stack is empty otherwise false
      */
-    boolean isEmpty(){
-        //TODO
-        return false;
+    public boolean isEmpty() {
+
+        return numbers.isEmpty();
     }
-    /*
-    return maximal number existing in the stack
+    /**
+     *
+     * @return maximal number existing in the stack
+     * In the case the stack is empty the Exception (NoSuchElementException)
+     * must be thrown
      */
-    int getMax(){
-        //TODO
-        return -1;
+    public int getMax() {
+        return maxNumbers.getLast();
     }
 }
