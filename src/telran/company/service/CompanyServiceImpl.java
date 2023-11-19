@@ -80,30 +80,23 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	private void removeEmployeesAge(Employee empl) {
-		LocalDate birthDate = empl.birthDate();
-		Set<Employee> set = employeesAge.get(birthDate);
-		set.remove(empl); // removing reference to being removed employee from the set of employees with the given birth date
-		if(set.isEmpty()){
-			employeesAge.remove(birthDate);
-		}
+		removeFromMap(employeesAge, empl.birthDate(), empl);
 	}
 
 	private void removeEmployeesSalary(Employee empl) {
 		int salary = empl.salary();
-		Set<Employee> set = employeesSalary.get(salary);
+		removeFromMap(employeesSalary, empl.salary(), empl);
+	}
+	private <T> void removeFromMap(Map<T, Set<Employee>> map, T key, Employee empl){
+		Set<Employee> set = map.get(key);
 		set.remove(empl);
 		if(set.isEmpty()){
-			employeesSalary.remove(salary);
+			map.remove(key);
 		}
 	}
 
 	private void removeEmployeesDepartment(Employee empl) {
-		String department = empl.department();
-		Set<Employee> set = employeesDepartment.get(department);
-		set.remove(empl);
-		if(set.isEmpty()){
-			employeesDepartment.remove(department);
-		}
+		removeFromMap(employeesDepartment, empl.department(),empl);
 	}
 
 	@Override
@@ -131,28 +124,21 @@ public class CompanyServiceImpl implements CompanyService {
 	public List<Employee> getAllEmployees() {
 		return new ArrayList<>(employeesMap.values());
 	}
+	private <T> List<Employee> getEmployeesList(T from, T to, TreeMap<T,Set<Employee>> map){
+		Collection<Set<Employee>> col = map.subMap(from, to).values();
+		return col.stream().flatMap(set -> set.stream()).toList();
+	}
 
 	@Override
 	public List<Employee> getEmployeesBySalary(int salaryFrom, int salaryTo) {
-		Collection<Set<Employee>> col = employeesSalary.subMap(salaryFrom, salaryTo).values();
-		ArrayList<Employee> res = new ArrayList<>();
-		for(Set<Employee> set: col){
-			res.addAll(set);
-		}
-		return res;
+		return getEmployeesList(salaryFrom, salaryTo, employeesSalary);
 	}
 
 	@Override
 	public List<Employee> getEmployeeByAge(int ageFrom, int ageTo) {
 		LocalDate dateFrom = getBirthDate(ageTo);
 		LocalDate dateTo = getBirthDate(ageFrom);
-		Collection<Set<Employee>> col = employeesAge.subMap(dateFrom, dateTo).values();
-		ArrayList<Employee> res = new ArrayList<>();
-		for(Set<Employee> set:col)
-		{
-			res.addAll(set);
-		}
-		return res;
+		return getEmployeesList(dateFrom, dateTo, employeesAge);
 	}
 
 	private LocalDate getBirthDate(int age) {
@@ -161,8 +147,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<DepartmentAvgSalary> salaryDistributionByDepartments() {
-		Map<String,Double> map = employeesMap.values().stream().collect(Collectors.groupingBy(e -> e.department()
-		, Collectors.averagingInt(Employee::salary)));
+		Map<String,Double> map = employeesMap.values().stream()
+				.collect(Collectors.groupingBy(e -> e.department(),
+				Collectors.averagingInt(Employee::salary)));
 		return map.entrySet().stream().map(empl -> new DepartmentAvgSalary(empl.getKey(), empl.getValue().intValue())).toList();
 	}
 
