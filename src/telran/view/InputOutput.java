@@ -68,14 +68,22 @@ public interface InputOutput {
         });
     }
     default String readPredicate(String prompt, String errorPrompt, Predicate<String> predicate ){
-        //TODO
         //returns string matching the given predicate
-        return null;
+        return readObject(prompt, errorPrompt, str -> {
+            if(!predicate.test(str)){
+                throw new RuntimeException("Doesn't math predicate");
+            }
+            return str;
+        });
     }
     default String readOptions(String prompt, String errorPrompt, Set<String> options){
-        //TODO
         //returns string included in the given
-        return null;
+        return readObject(prompt,errorPrompt,str ->{
+            if(!options.contains(str)){
+                throw new RuntimeException("No option");
+            }
+            return str;
+        });
     }
     default double readDouble(String prompt, String errorPrompt){
         return readObject(prompt, errorPrompt, Double::parseDouble);

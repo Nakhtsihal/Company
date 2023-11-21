@@ -1,0 +1,55 @@
+package telran.view;
+
+import java.util.ArrayList;
+
+public class Menu implements Item {
+    private static final String SYMBOL = "_";
+    private static final int N_SYMBOLS = 30 ;
+    private Item[] items;
+    private String name;
+
+    public Menu(Item[] items, String name) {
+        this.items = items;
+        this.name = name;
+    }
+
+    @Override
+    public String displlayName() {
+        return name;
+    }
+
+    @Override
+    public void perform(InputOutput io) {
+        Item item = null;
+       do{
+           displayTitle(io);
+           displayItems(io);
+           int nItem = io.readInt("Select item number", "Wrong number", 1, items.length);
+           item = items[nItem - 1];
+           try{
+               item.perform(io);
+           }catch (Exception e){
+               io.writeLine(e.getMessage());
+           }
+       }while(item.isExit());
+
+    }
+
+    private void displayItems(InputOutput io) {
+        for(int i = 0; i < items.length; i++){
+           io.writeLine(String.format("%d. %s", i + 1, items[i].displlayName()));
+        }
+    }
+
+    private void displayTitle(InputOutput io) {
+        io.writeLine(SYMBOL.repeat(N_SYMBOLS));
+        io.writeLine(String.format("%s%s%s", SYMBOL, " ".repeat(N_SYMBOLS / 5), name));
+        io.writeLine(SYMBOL.repeat(N_SYMBOLS));
+
+    }
+
+    @Override
+    public boolean isExit() {
+        return false;
+    }
+}
